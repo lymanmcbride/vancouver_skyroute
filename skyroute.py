@@ -33,7 +33,6 @@ def set_start_and_end(start_point, end_point):
         start_point = get_start()
         end_point = get_end()
     return start_point, end_point
-
 def get_start():
     start_point_key = input('Where are you coming from? Type in the corresponding letter: ')
     if start_point_key in landmark_choices.keys():
@@ -50,6 +49,22 @@ def get_end():
         print("Sorry, that's not a landmark we have data on. Let's try this again...")
         get_end()
     return end_point
-skyroute()
-test = set_start_and_end(None, None)
+
+def new_route(start_point = None, end_point = None):
+    start_point, end_point = set_start_and_end(start_point, end_point)
+
+def get_route(start_point, end_point):
+    start_stations = vc_landmarks[start_point]
+    end_stations = vc_landmarks[end_point]
+    routes = []
+    for start in start_stations:
+        for end in end_stations:
+            route = bfs(vc_metro, start, end)
+            if route:
+                routes.append(route)
+    shortest_route = min(routes, key=len)
+    return shortest_route
+#Function calls
+#skyroute()
+test = get_route('Cathedral of Our Lady of the Holy Rosary', 'B.C. Place Stadium')
 print(test)
