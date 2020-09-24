@@ -14,6 +14,7 @@ def greet():
 #main program
 def skyroute():
     greet()
+    new_route()
 
 #Getting and setting functions
 def set_start_and_end(start_point, end_point):
@@ -52,6 +53,10 @@ def get_end():
 
 def new_route(start_point = None, end_point = None):
     start_point, end_point = set_start_and_end(start_point, end_point)
+    shortest_route = get_route(start_point, end_point)
+    shortest_route_string = '\n'.join(shortest_route)
+    print("The shortest metro route from {0} to {1} is:\n{2}".format(start_point, end_point, shortest_route_string))
+
 
 def get_route(start_point, end_point):
     start_stations = vc_landmarks[start_point]
@@ -65,6 +70,6 @@ def get_route(start_point, end_point):
     shortest_route = min(routes, key=len)
     return shortest_route
 #Function calls
-#skyroute()
-test = get_route('Cathedral of Our Lady of the Holy Rosary', 'B.C. Place Stadium')
-print(test)
+skyroute()
+#test = get_route('Cathedral of Our Lady of the Holy Rosary', 'B.C. Place Stadium')
+#print(test)
