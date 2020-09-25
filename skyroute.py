@@ -3,22 +3,21 @@ from vc_metro import vc_metro
 from vc_landmarks import vc_landmarks
 from landmark_choices import landmark_choices
 
-#concatenate landmark_choices into a string
+#Landmarks in a string and stations under construction
 landmark_string = ""
 stations_under_construction = []
 for letter, landmark in landmark_choices.items():
     landmark_string += "{} - {}\n".format(letter, landmark)
 
-def greet():
-    print("Hi there, and welcome to SkyRoute!\n We'll help you find the shortest route between the following Vancouver landmarks:\n" + landmark_string)
 
 #main program
 def skyroute():
+    boot()
     greet()
     new_route()
     goodbye()
 
-#Getting and setting functions
+#Helper Functions
 def set_start_and_end(start_point, end_point):
     if start_point:
         change_point = input("What would you like to change? You can enter 'o' for 'origin', 'd' for 'destination', or 'b' for 'both': ")
@@ -54,7 +53,6 @@ def get_end():
         print("Sorry, that's not a landmark we have data on. Let's try this again...")
         get_end()
     return end_point
-
 def new_route(start_point = None, end_point = None):
     start_point, end_point = set_start_and_end(start_point, end_point)
     shortest_route = get_route(start_point, end_point)
@@ -67,7 +65,6 @@ def new_route(start_point = None, end_point = None):
     if again == 'y':
         show_landmarks()
         new_route(start_point, end_point)
-
 def show_landmarks():
     see_landmarks = input('Would you like to see the list of landmarks again? Enter y/n')
     if see_landmarks == "y":
@@ -94,8 +91,6 @@ def get_route(start_point, end_point):
         new_destination = input("Would you like to input a new destination? y/n")
         if new_destination.lower() == "y":
             new_route(start_point, end_point)
-
-
 def get_active_stations():
     updated_metro = vc_metro
     for station_under_construction in stations_under_construction:
@@ -105,6 +100,21 @@ def get_active_stations():
             else:
                 updated_metro[current_station] = set([])
     return updated_metro
+def boot():
+    admin = input("Are you an administrator? y/n")
+    if admin.lower() == 'y':
+        print(vc_metro.keys())
+        add_station = input('Add a construction site from the list: ')
+        if add_station in vc_metro.keys():
+            stations_under_construction.append(add_station)
+        else:
+            print('please enter a valid station or exit by typing "n".')
+            boot()
+def add_station_under_construction(station):
+    stations_under_construction.append(station)
+
+def greet():
+    print("Hi there, and welcome to SkyRoute!\n We'll help you find the shortest route between the following Vancouver landmarks:\n" + landmark_string)
 def goodbye():
     print("Thanks for using Skyroute!")
 
